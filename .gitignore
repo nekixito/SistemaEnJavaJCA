@@ -1,0 +1,58 @@
+############################################
+# NetBeans build artifacts
+############################################
+/build/
+/dist/
+/nbbuild/
+/nbdist/
+/nbactions.xml
+/nbactions-*.xml
+
+############################################
+# NetBeans user-specific project settings
+############################################
+/nbproject/private/
+/nbproject/private/*
+
+############################################
+# DO NOT ignore these (NetBeans needs them)
+# !nbproject/project.xml
+# !nbproject/build-impl.xml
+############################################
+
+############################################
+# Java compiled files
+############################################
+*.class
+*.log
+*.ctxt
+
+############################################
+# OS junk files
+############################################
+.DS_Store
+Thumbs.db
+
+############################################
+# Archives and executables
+############################################
+*.jar
+*.war
+*.zip
+*.tar
+*.gz
+*.tmp
+*.bak
+*.class
+
+############################################
+# Environment variables / secrets
+############################################
+*.env
+
+############################################
+# Databases or local storage
+############################################
+*.db
+*.mv.db
+*.sqlite
