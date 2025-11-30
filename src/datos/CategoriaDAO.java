@@ -4,6 +4,9 @@
  */
 package datos;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import database.Conexion;
 import datos.interfaces.CrudSimpleInterface;
 import entidades.Categoria;
 import java.util.List;
@@ -13,6 +16,15 @@ import java.util.List;
  * @author Miguel
  */
 public class CategoriaDAO implements CrudSimpleInterface<Categoria>{
+    
+    private final Conexion CON;
+    private PreparedStatement ps;
+    private ResultSet rs;
+    private boolean resp;
+
+    public CategoriaDAO() {
+        CON = Conexion.getInstancia();
+    }
 
     @Override
     public List<Categoria> listar(String texto) {
