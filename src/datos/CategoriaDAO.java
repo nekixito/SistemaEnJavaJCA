@@ -106,7 +106,25 @@ public class CategoriaDAO implements CrudSimpleInterface<Categoria>{
 
     @Override
     public boolean desactivar(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        resp = false;
+        
+        try {
+            ps = CON.conectar().prepareStatement("UPDATE categoria SET activo = 0 WHERE id = ?;");
+            ps.setInt(1, id);
+            
+            if(ps.executeUpdate() > 0){
+                resp = true;
+            }
+            
+            ps.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } finally {
+            ps = null;
+            CON.desconectar();
+        }
+        
+        return resp;
     }
 
     @Override
