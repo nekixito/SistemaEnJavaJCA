@@ -152,7 +152,27 @@ public class CategoriaDAO implements CrudSimpleInterface<Categoria>{
 
     @Override
     public int total() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int totalRegistros = 0;
+        
+        try {
+            ps = CON.conectar().prepareStatement("SELECT COUNT(id) FROM categoria;");
+            rs = ps.executeQuery();
+            
+            while(rs.next()){
+                totalRegistros = rs.getInt("COUNT(id)");
+            }
+            
+            ps.close();
+            rs.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } finally {
+            ps = null;
+            rs = null;
+            CON.desconectar();
+        }
+        
+        return totalRegistros;
     }
 
     @Override
