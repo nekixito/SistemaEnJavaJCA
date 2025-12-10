@@ -61,7 +61,7 @@ public class CategoriaControl {
             if (DATOS.insertar(obj)) {
                 return "OK";
             } else {
-                return "Error en ls insercion del registro";
+                return "Error en la insercion del registro";
             }
         }
     }

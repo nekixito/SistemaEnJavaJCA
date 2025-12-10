@@ -45,7 +45,7 @@ public class CategoriaDAO implements CrudSimpleInterface<Categoria>{
             ps.close();
             rs.close();
             
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } finally{
             ps = null;
@@ -61,15 +61,16 @@ public class CategoriaDAO implements CrudSimpleInterface<Categoria>{
         resp = false;
         
         try {
-            ps = CON.conectar().prepareStatement("INSERT INTO categoria (nombre, descripcion, activo) VALUES (?, ?, 1);");
+            ps = CON.conectar().prepareStatement("INSERT INTO categoria (nombre, descripcion, activo) VALUES (?, ?, 1)");
             ps.setString(1, obj.getNombre());
             ps.setString(2, obj.getDescripcion());
+            System.out.println("numero = " + ps.executeUpdate());
             if(ps.executeUpdate() > 0){
                 resp = true;
             }
             
             ps.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } finally {
             ps = null;
@@ -94,7 +95,7 @@ public class CategoriaDAO implements CrudSimpleInterface<Categoria>{
             }
             
             ps.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } finally {
             ps = null;
@@ -117,7 +118,7 @@ public class CategoriaDAO implements CrudSimpleInterface<Categoria>{
             }
             
             ps.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } finally {
             ps = null;
@@ -140,7 +141,7 @@ public class CategoriaDAO implements CrudSimpleInterface<Categoria>{
             }
             
             ps.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } finally {
             ps = null;
@@ -164,7 +165,7 @@ public class CategoriaDAO implements CrudSimpleInterface<Categoria>{
             
             ps.close();
             rs.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } finally {
             ps = null;
@@ -182,7 +183,7 @@ public class CategoriaDAO implements CrudSimpleInterface<Categoria>{
         
         try {
             ps = CON.conectar().prepareStatement("SELECT nombre FROM categoria WHERE nombre = ?;");
-            ps.setString(0, texto);
+            ps.setString(1, texto);
             rs = ps.executeQuery();
             
             //Se posiciona en el ultimo
@@ -195,7 +196,7 @@ public class CategoriaDAO implements CrudSimpleInterface<Categoria>{
             
             ps.close();
             rs.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } finally {
             ps = null;
