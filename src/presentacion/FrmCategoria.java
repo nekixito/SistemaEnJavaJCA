@@ -304,9 +304,9 @@ public class FrmCategoria extends javax.swing.JInternalFrame {
                 this.mensajeOK("Registrado correctamente");
                 this.limpiar();
                 this.listar("");
-                /*tabGeneral.setSelectedIndex(0);
+                tabGeneral.setSelectedIndex(0);
                 tabGeneral.setEnabledAt(0, true);
-                tabGeneral.setEnabledAt(1, false);*/
+                tabGeneral.setEnabledAt(1, false);
                 
             }else{
                 this.mensajeError(resp);

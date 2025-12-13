@@ -64,7 +64,7 @@ public class CategoriaDAO implements CrudSimpleInterface<Categoria>{
             ps = CON.conectar().prepareStatement("INSERT INTO categoria (nombre, descripcion, activo) VALUES (?, ?, 1)");
             ps.setString(1, obj.getNombre());
             ps.setString(2, obj.getDescripcion());
-            System.out.println("numero = " + ps.executeUpdate());
+            
             if(ps.executeUpdate() > 0){
                 resp = true;
             }
