@@ -4,6 +4,7 @@
  */
 package presentacion;
 
+import entidades.Categoria;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
@@ -87,8 +88,17 @@ public class FrmArticulo extends javax.swing.JInternalFrame {
     }
     
     private void limpiar(){
+        txtCodigo.setText("");
         txtNombre.setText("");
         txtDescripcion.setText("");
+        txtId.setText("");
+        txtPrecioVenta.setText("");
+        txtStock.setText("");
+        this.imagen = "";
+        lblImagen.setIcon(null);
+        this.rutaDestino="";
+        this.rutaOrigen="";
+        
         this.accion = "guardar";
     }
     
@@ -142,7 +152,6 @@ public class FrmArticulo extends javax.swing.JInternalFrame {
         jLabel9 = new javax.swing.JLabel();
         lblImagen = new javax.swing.JLabel();
         btnAgregarImagen = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setClosable(true);
@@ -282,7 +291,11 @@ public class FrmArticulo extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Precio Venta (*)");
 
+        txtPrecioVenta.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+
         jLabel8.setText("Strock (*)");
+
+        txtStock.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
 
         jLabel9.setText("Imagen");
 
@@ -293,13 +306,6 @@ public class FrmArticulo extends javax.swing.JInternalFrame {
         btnAgregarImagen.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarImagenActionPerformed(evt);
-            }
-        });
-
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
             }
         });
 
@@ -343,9 +349,7 @@ public class FrmArticulo extends javax.swing.JInternalFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnAgregarImagen)
-                                    .addComponent(jButton1)))
+                                .addComponent(btnAgregarImagen))
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(txtStock, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
                                 .addComponent(txtPrecioVenta, javax.swing.GroupLayout.Alignment.LEADING)))))
@@ -381,8 +385,7 @@ public class FrmArticulo extends javax.swing.JInternalFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
                             .addComponent(btnAgregarImagen))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
-                        .addComponent(jButton1))
+                        .addGap(0, 91, Short.MAX_VALUE))
                     .addComponent(lblImagen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -437,8 +440,20 @@ public class FrmArticulo extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        if(txtNombre.getText().length() == 0 || txtNombre.getText().length() > 20){
+        if(txtNombre.getText().length() == 0 || txtNombre.getText().length() > 100){
             JOptionPane.showMessageDialog(this, "Debes ingresar un nombre y no debe ser mayor a 20 caracteres, es obligatorio","Sistema",JOptionPane.WARNING_MESSAGE);
+            txtNombre.requestFocus();
+            return;
+        }
+        
+        if(txtPrecioVenta.getText().length() == 0){
+            JOptionPane.showMessageDialog(this, "Debes ingresar un precio de venta, es obligatorio","Sistema",JOptionPane.WARNING_MESSAGE);
+            txtNombre.requestFocus();
+            return;
+        }
+        
+        if(txtStock.getText().length() == 0){
+            JOptionPane.showMessageDialog(this, "Debes ingresar un stock del articulo, es obligatorio","Sistema",JOptionPane.WARNING_MESSAGE);
             txtNombre.requestFocus();
             return;
         }
@@ -468,9 +483,13 @@ public class FrmArticulo extends javax.swing.JInternalFrame {
             }
         }else{
             //guardar
-            resp = "OK";
-            //resp = this.CONTROL.insertar(txtNombre.getText(), txtDescripcion.getText());
+            Categoria seleccionado = (Categoria) cboCategoria.getSelectedItem();
+            resp = this.CONTROL.insertar(seleccionado.getId(), txtCodigo.getText(),txtNombre.getText() ,Double.parseDouble(txtPrecioVenta.getText()), Integer.parseInt(txtStock.getText()), txtDescripcion.getText(),this.imagen);
             if(resp.equals("OK")){
+                if(!this.imagen.equals("")){
+                    this.subirImagenes();
+                }
+                
                 this.mensajeOK("Registrado correctamente");
                 this.limpiar();
                 this.listar("");
@@ -561,10 +580,6 @@ public class FrmArticulo extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_btnAgregarImagenActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        this.subirImagenes();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActivar;
@@ -576,7 +591,6 @@ public class FrmArticulo extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JComboBox<String> cboCategoria;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
